@@ -212,7 +212,7 @@ const hashPassword = async (password) => {
           <span className="text-white font-bold">Error! {errorMsg}</span>
         </div>
       )}
-      <p className="font-bold py-5 max-sm:text-sm">Note: Remember to copy your password and send to the receiver. Because of our security policy, we don't store and send file passwords.</p>
+      <p className="font-bold py-5 max-sm:text-sm">Note: Remember to copy your password and send to the receiver. Because of our security policy, we don't send file passwords.</p>
       <div className="flex flex-col w-full items-center">
 
       

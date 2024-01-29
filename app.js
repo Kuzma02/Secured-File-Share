@@ -53,7 +53,7 @@ app.post("/", express.json(), async (req, res) => {
     console.log(downloadLink);
 
     // Slanje e-maila samo primaocu sa ID-om fajla
-    /*
+    
     if (receiverEmail) {
       try {
         await sendEmailMailjet(receiverEmail, fileId);
@@ -63,7 +63,7 @@ app.post("/", express.json(), async (req, res) => {
         return res.status(500).json({ msg: "Error sending email", error: error.message });
       }
     }
-    */
+    
 
     res
       .status(200)

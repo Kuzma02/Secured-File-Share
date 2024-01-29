@@ -123,4 +123,4 @@ console.log("Message sent: %s", info.messageId);
 
 
 
-module.exports = sendEmailBrevo;
+module.exports = sendEmailMailjet;
