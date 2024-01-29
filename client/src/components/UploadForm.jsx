@@ -90,6 +90,9 @@ const UploadForm = ({ progress }) => {
 
 
     try {
+
+      const hashedPassword = await hashPassword(filePassword);
+
       // Enkriptuj fajl pre slanja
       const encryptedFile = await encryptFile(file, filePassword);
 
@@ -98,7 +101,7 @@ const UploadForm = ({ progress }) => {
       formData.append("encryptedFile", encryptedFile);
       formData.append("originalName", file.name); // Dodaj originalno ime fajla
       formData.append("receiverEmail", receiverEmail); // Dodaj e-mail adresu primaoca
-      formData.append("password", filePassword);
+      formData.append("password", hashedPassword);
 
       // Slanje enkriptovanog fajla, originalnog imena fajla i e-maila primaoca
       await axios.post("http://localhost:4000", formData, {
@@ -116,6 +119,16 @@ const UploadForm = ({ progress }) => {
   const hasUpperCase = (str) => {
     return str !== str.toLowerCase();
 }
+
+const hashPassword = async (password) => {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hashBuffer))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+};
+
 
   return (
     <div className="text-center">

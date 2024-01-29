@@ -19,11 +19,14 @@ const FileDownload = () => {
       return;
     }
     try {
+
+      const hashedPassword = await hashPassword(password);
+
       const response = await axios.get(
         `http://localhost:4000/download/${fileId}`,
         { responseType: "blob",
         headers: {
-          'Password': password // Dodajte lozinku u zaglavlje zahteva
+          'Password': hashedPassword // Dodajte lozinku u zaglavlje zahteva
         }
       }
       );
@@ -113,6 +116,17 @@ const FileDownload = () => {
 
     return aesKey;
   }
+
+
+  const hashPassword = async (password) => {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hashBuffer))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  };
+  
 
   return (
     <div className="px-8 md:px-28 max-sm:px-2">
