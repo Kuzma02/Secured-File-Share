@@ -1,11 +1,14 @@
 import React from "react";
 import { useState } from "react";
-import { AdvancedPasswordInput, FilePreview, ProgressBar, CopyToClipboardBtn } from "../components";
+import {
+  AdvancedPasswordInput,
+  FilePreview,
+  ProgressBar,
+  CopyToClipboardBtn,
+} from "../components";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { z } from "zod";
-
-
 
 const receiversEmailSchema = z.string().email();
 
@@ -13,15 +16,56 @@ const UploadForm = ({ progress }) => {
   const [file, setFile] = useState();
   const [errorMsg, setErrorMsg] = useState();
   const [receiverEmail, setReceiverEmail] = useState("");
-  const [ filePassword, setFilePassword ] = useState("");
-  const [ seePassword, setSeePassword ] = useState(false);
+  const [filePassword, setFilePassword] = useState("");
+  const [seePassword, setSeePassword] = useState(false);
+
+  const allowedExtensions = [
+    "pdf",
+    "docx",
+    "doc",
+    "xls",
+    "xlsx",
+    "csv",
+    "txt",
+    "rtf",
+    "html",
+    "zip",
+    "mp3",
+    "m4a",
+    "wma",
+    "mpg",
+    "flv",
+    "avi",
+    "jpg",
+    "jpeg",
+    "png",
+    "gif",
+    "ppt",
+    "pptx",
+    "wav",
+    "mp4",
+    "m4v",
+    "wmv",
+    "avi",
+    "epub",
+  ];
 
   const onFileSelect = (file) => {
     if (file && file.size > 10000000) {
-      console.log("Size is more than 10MB");
+      toast.warn("File size is more than 10MB");
       setErrorMsg("Max file upload size is 10MB");
       return;
     }
+
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+    if (!allowedExtensions.includes(fileExtension)) {
+      toast.warn("File type not allowed");
+      setErrorMsg(
+        `File type not allowed. Allowed types: ${allowedExtensions.join(", ")}`
+      );
+      return;
+    }
+
     setErrorMsg(null);
     setFile(file);
   };
@@ -78,19 +122,17 @@ const UploadForm = ({ progress }) => {
       return;
     }
 
-    if(filePassword.length < 20){
+    if (filePassword.length < 20) {
       toast.warn("File password must be minimum 20 characters");
       return;
     }
 
-    if(!hasUpperCase(filePassword)){
+    if (!hasUpperCase(filePassword)) {
       toast.warn("File password should have at least 1 uppercase character");
       return;
     }
 
-
     try {
-
       const hashedPassword = await hashPassword(filePassword);
 
       // Enkriptuj fajl pre slanja
@@ -118,17 +160,16 @@ const UploadForm = ({ progress }) => {
 
   const hasUpperCase = (str) => {
     return str !== str.toLowerCase();
-}
+  };
 
-const hashPassword = async (password) => {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(hashBuffer))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
-};
-
+  const hashPassword = async (password) => {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    return Array.from(new Uint8Array(hashBuffer))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+  };
 
   return (
     <div className="text-center">
@@ -191,11 +232,17 @@ const hashPassword = async (password) => {
         />
       </div>
 
-      <AdvancedPasswordInput seePassword={seePassword} setSeePassword={setSeePassword} filePassword={filePassword} setFilePassword={setFilePassword} idValue="file-password-encrypt" placeValue="Set File Password" />
-      
+      <AdvancedPasswordInput
+        seePassword={seePassword}
+        setSeePassword={setSeePassword}
+        filePassword={filePassword}
+        setFilePassword={setFilePassword}
+        idValue="file-password-encrypt"
+        placeValue="Set File Password"
+      />
 
       {errorMsg && (
-        <div role="alert" className="alert alert-error">
+        <div role="alert" className="alert alert-error my-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="stroke-current shrink-0 h-6 w-6 text-white"
@@ -212,27 +259,25 @@ const hashPassword = async (password) => {
           <span className="text-white font-bold">Error! {errorMsg}</span>
         </div>
       )}
-      <p className="font-bold py-5 max-sm:text-sm">Note: Remember to copy your password and send to the receiver. Because of our security policy, we don't send file passwords.</p>
+      <p className="font-bold py-5 max-sm:text-sm">
+        Note: Remember to copy your password and send to the receiver. Because
+        of our security policy, we don't send file passwords.
+      </p>
       <div className="flex flex-col w-full items-center">
-
-      
-
         {/* COPY TO CLIPBOARD BTN */}
         <CopyToClipboardBtn filePassword={filePassword} />
 
-
-
-      {progress === 0 ? (
-        <ProgressBar progress={progress} />
-      ) : (
-        <button
-          disabled={!file}
-          className="p-2 bg-blue-500 text-white w-[30%] rounded-full mt-5 disabled:bg-gray-400"
-          onClick={(e) => upload(e)}
-        >
-          Send Now
-        </button>
-      )}
+        {progress === 0 ? (
+          <ProgressBar progress={progress} />
+        ) : (
+          <button
+            disabled={!file}
+            className="p-2 bg-blue-500 text-white w-[30%] rounded-full mt-5 disabled:bg-gray-400"
+            onClick={(e) => upload(e)}
+          >
+            Send Now
+          </button>
+        )}
       </div>
     </div>
   );
