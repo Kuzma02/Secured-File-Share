@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 
 const receiversEmailSchema = z.string().email();
+const passwordSchema = z.string().min(20, "Password field must be valid length and value")
 
 const UploadForm = ({ progress }) => {
   const [file, setFile] = useState();
@@ -122,8 +123,8 @@ const UploadForm = ({ progress }) => {
       return;
     }
 
-    if (filePassword.length < 20) {
-      toast.warn("File password must be minimum 20 characters");
+    if (!passwordSchema.safeParse(filePassword).success) {
+      toast.warn("File password must be minimum 20 characters and must be string");
       return;
     }
 

@@ -2,22 +2,28 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { AdvancedPasswordInput, PageHeader } from "../components";
 import { toast } from 'react-toastify'
+import { z } from "zod";
 
 const FileDownload = () => {
   const [password, setPassword] = useState("");
   const [fileId, setFileId] = useState(""); // ID fajla za preuzimanje
   const [ seePassword, setSeePassword ] = useState(false);
 
+  const downloadSchema = z.object({
+    fileId: z.string().min(5, "File ID field must be valid length and value"),
+    password: z.string().min(20, "Password field must be valid length and value")
+  });
+
   const handleDownload = async () => {
-    if(fileId.length === 0){
-      toast.warn("File ID field is required");
+    
+    const validationResult = downloadSchema.safeParse({ fileId, password });
+    if (!validationResult.success) {
+      validationResult.error.issues.forEach(issue => {
+        toast.warn(issue.message);
+      });
       return;
     }
 
-    if(password.length === 0){
-      toast.warn("Password field is required");
-      return;
-    }
     try {
 
       const hashedPassword = await hashPassword(password);

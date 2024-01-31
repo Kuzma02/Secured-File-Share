@@ -7,11 +7,31 @@ const { v4: uuidv4 } = require("uuid"); // Uvoz UUID
 const connectDB = require("./db/connect");
 const File = require("./models/File");
 const fs = require("fs");
+const rateLimit = require('express-rate-limit');
+const nosqlSanitizer = require('express-nosql-sanitizer');
+const { xss } = require('express-xss-sanitizer');
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // za parsiranje URL-encoded podataka
+app.use(xss()); // dodavanje XSS sanitizacije
 
 const sendEmailMailjet = require("./controllers/sendEmail");
+
+
+
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+	standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+	// store: ... , // Use an external store for consistency across multiple server instances.
+})
+
+app.use(nosqlSanitizer());
+
+// Apply the rate limiting middleware to all requests.
+app.use(limiter)
 
 
 app.use(cors({
