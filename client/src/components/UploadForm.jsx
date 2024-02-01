@@ -97,10 +97,10 @@ const UploadForm = ({ progress }) => {
   }
 
   const encryptFile = async (file, password) => {
-    const salt = crypto.getRandomValues(new Uint8Array(16)); // Generiši nasumičan salt
+    const salt = crypto.getRandomValues(new Uint8Array(16));
     const key = await generateKey(password, salt);
 
-    const iv = crypto.getRandomValues(new Uint8Array(12)); // Generiši IV za AES-GCM
+    const iv = crypto.getRandomValues(new Uint8Array(12));
     const encryptedContent = await crypto.subtle.encrypt(
       { name: "AES-GCM", iv },
       key,
@@ -136,17 +136,17 @@ const UploadForm = ({ progress }) => {
     try {
       const hashedPassword = await hashPassword(filePassword);
 
-      // Enkriptuj fajl pre slanja
+
       const encryptedFile = await encryptFile(file, filePassword);
 
-      // Pripremi enkriptovani fajl, originalno ime fajla i e-mail adresu primaoca za slanje
+
       let formData = new FormData();
       formData.append("encryptedFile", encryptedFile);
-      formData.append("originalName", file.name); // Dodaj originalno ime fajla
-      formData.append("receiverEmail", receiverEmail); // Dodaj e-mail adresu primaoca
+      formData.append("originalName", file.name);
+      formData.append("receiverEmail", receiverEmail);
       formData.append("password", hashedPassword);
 
-      // Slanje enkriptovanog fajla, originalnog imena fajla i e-maila primaoca
+
       await axios.post("http://localhost:4000", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -265,7 +265,7 @@ const UploadForm = ({ progress }) => {
         of our security policy, we don't send file passwords.
       </p>
       <div className="flex flex-col w-full items-center">
-        {/* COPY TO CLIPBOARD BTN */}
+
         <CopyToClipboardBtn filePassword={filePassword} />
 
         {progress === 0 ? (

@@ -39,21 +39,6 @@ const sendEmailEthereal = async (req, res) => {
     res.json(info);
 }
 
-const sendEmailSendGrid = async (req,res) => {
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-    const msg = {
-        to: 'izradaposlovnihsajtova@gmail.com', // Change to your recipient
-        from: 'aleksandarkuzmanovic02@gmail.com', // Change to your verified sender
-        subject: 'Sending with SendGrid is Fun',
-        text: 'and easy to do anywhere, even with Node.js',
-        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-      }
-
-      const info = await sgMail.send(msg);
-      res.json(info);
-}
-
 const sendEmailMailjet = async (receiverEmail, fileID, senderName = "Encrypt Share") => {
     const mailjet = Mailjet.apiConnect(
       process.env.MJ_APIKEY_PUBLIC,
@@ -84,43 +69,16 @@ const sendEmailMailjet = async (receiverEmail, fileID, senderName = "Encrypt Sha
         });
   
       if (request && request.body) {
-        // Ako je zahtev uspeo, šaljemo odgovor sa statusom 200
+
         return { success: true, data: request.body };
       } else {
-        // Ako zahtev nije uspeo, šaljemo odgovor sa statusom 500 i porukom o grešci
+
         return { success: false, error: "Email sending failed" };
       }
     } catch (err) {
-      // Uhvaćena greška pri slanju emaila
+
       return { success: false, error: err.message };
     }
   };
-
-  const sendEmailBrevo = async () => {
-// create reusable transporter object using the default SMTP transport
-let transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: "kuzmanovica22@gmail.com", // generated brevo user
-    pass: "", // generated brevo password
-  },
-});
-
-// send mail with defined transport object
-let info = await transporter.sendMail({
-  from: "kuzmanovica22@gmail.com", // sender address
-  to: "izradaposlovnihsajtova@gmail.com", // list of receivers
-  subject: "Hello ✔", // Subject line
-  text: "Hello Kuzma , This is an SMTP message with customizations", // plain text body
-});
-
-console.log("Message sent: %s", info.messageId);
-// Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-  };
-  
-
-
 
 module.exports = sendEmailMailjet;

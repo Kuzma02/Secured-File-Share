@@ -6,7 +6,7 @@ import { z } from "zod";
 
 const FileDownload = () => {
   const [password, setPassword] = useState("");
-  const [fileId, setFileId] = useState(""); // ID fajla za preuzimanje
+  const [fileId, setFileId] = useState("");
   const [ seePassword, setSeePassword ] = useState(false);
 
   const downloadSchema = z.object({
@@ -32,12 +32,12 @@ const FileDownload = () => {
         `http://localhost:4000/download/${fileId}`,
         { responseType: "blob",
         headers: {
-          'Password': hashedPassword // Dodajte lozinku u zaglavlje zahteva
+          'Password': hashedPassword
         }
       }
       );
 
-      // Ekstrahovanje imena fajla iz Content-Disposition zaglavlja
+
       let filename = "decrypted_file";
       const contentDisposition = response.headers["content-disposition"];
       if (contentDisposition) {
@@ -50,7 +50,7 @@ const FileDownload = () => {
         }
       }
 
-      // Obrada i preuzimanje dešifrovanog fajla
+
       const decryptedFile = await decryptFile(
         new Blob([response.data]),
         password
@@ -72,18 +72,18 @@ const FileDownload = () => {
   };
 
   const decryptFile = async (encryptedBlob, password) => {
-    // Konvertuj Blob u ArrayBuffer
+
     const buffer = await encryptedBlob.arrayBuffer();
 
-    // Ekstrakcija salt, iv, i šifrovanog sadržaja
+
     const salt = new Uint8Array(buffer.slice(0, 16));
     const iv = new Uint8Array(buffer.slice(16, 28));
     const encryptedData = buffer.slice(28);
 
-    // Generisanje ključa za dešifrovanje
+
     const key = await generateKey(password, salt);
 
-    // Dešifrovanje podataka
+
     try {
       const decryptedContent = await crypto.subtle.decrypt(
         { name: "AES-GCM", iv },

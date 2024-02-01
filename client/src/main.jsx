@@ -6,7 +6,7 @@ import { ClerkProvider } from "@clerk/clerk-react";
 import "react-toastify/dist/ReactToastify.css";
 
 
-// Import your publishable key
+
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!PUBLISHABLE_KEY) {
