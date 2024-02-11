@@ -47,7 +47,7 @@ MJ_APIKEY_PRIVATE=your_mail_jet_private_API_key
 
 3. Enter your environment variables in .env on the client
 ```
-VITE_CLERK_PUBLISHABLE_KEY=your_clerk_public_key
+VITE_CLERK_PUBLISHABLE_KEY=your_clerk_key
 ```
 
 4. In the root of the project create folder "uploads"
