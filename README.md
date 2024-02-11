@@ -11,25 +11,25 @@ Secure File Sharing App is a comprehensive solution for secure file exchange, de
 ![screencapture-localhost-5173-download-2024-02-09-09_14_20](https://github.com/Kuzma02/Secured-File-Share/assets/138793624/3f9a9ffb-1e81-4d33-a7c6-ba1f08d64c82)
 
 # Features
-- End-to-End Encryption: Ensures that files are encrypted during transmission and storage, providing confidentiality and security for sensitive information.
-- Password Protection: Allows senders to protect shared files with a password, ensuring that only intended recipients can access the files.
-- Input Sanitization: Guards against malicious input, preventing NoSQL injections, and ensuring the integrity of the database.
-- Brute Force Protection: Implements rate limiting and account lockout mechanisms to protect against brute force attacks.
-- XSS Protection: Includes measures to sanitize input and output, protecting against Cross-Site Scripting (XSS) attacks.
-- Comprehensive Security: Incorporates various other security practices to safeguard against a wide array of vulnerabilities.
+- End-to-End Encryption: Leveraging strong encryption algorithms to ensure that files are encrypted from the moment they leave the sender's device until they are decrypted by the recipient, guaranteeing that the contents remain confidential and tamper-proof during transit.
+- Password Protection: Adds an additional layer of security by allowing the sender to set a password on a file, which the recipient must enter to download or view the file, thereby preventing unauthorized access.
+- Input Sanitization: Protects the application from various injection attacks by sanitizing user inputs, thus maintaining the integrity and security of the database.
+- Brute Force Attack Protection: Implements sophisticated rate-limiting and account lockout mechanisms to thwart attackers attempting to guess passwords through repeated attempts.
+- Protection Against NoSQL Injections and XSS Attacks: Employs input validation and output encoding strategies to defend against NoSQL injection and Cross-Site Scripting (XSS) vulnerabilities, ensuring the application's resilience against these common web attack vectors.
+- Comprehensive Security Practices: Integrates a variety of security measures, including secure headers, HTTPS enforcement, and content security policies, to mitigate risks and protect against a wide range of vulnerabilities.
 
 # Technologies Used
-MongoDB: For a flexible, scalable database.
-Express.js: To handle server-side logic and RESTful API endpoints.
-React: For building a dynamic and responsive user interface.
-Node.js: As the runtime environment for executing JavaScript on the server side.
+- MongoDB: For a flexible, scalable database.
+- Express.js: To handle server-side logic and RESTful API endpoints.
+- React: For building a dynamic and responsive user interface.
+- Node.js: As the runtime environment for executing JavaScript on the server side.
 
 # Getting Started
 To get a local copy up and running, follow these simple steps.
 
 # Prerequisites
-Node.js
-Internet connection
+- Node.js
+- Internet connection
 
 # Installation
 
