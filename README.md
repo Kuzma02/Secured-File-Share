@@ -41,7 +41,7 @@ https://github.com/Kuzma02/Secured-File-Share
 2. Enter your environment variables in .env on the server
 ```
 MONGO_URI=your_mongo_uri
-MJ_APIKEY=your_mail_jet_public_API_key
+MJ_APIKEY_PUBLIC=your_mail_jet_public_API_key
 MJ_APIKEY_PRIVATE=your_mail_jet_private_API_key
 ```
 
