@@ -31,6 +31,10 @@ To get a local copy up and running, follow these simple steps.
 - Node.js
 - Internet connection
 
+# Step by step video instructions for setting up and running the app
+
+[https://www.youtube.com/watch?v=fAsS6YrkIko](https://www.youtube.com/watch?v=fAsS6YrkIko)
+
 # Installation
 
 1. Clone the repo
