@@ -37,9 +37,9 @@ To get a local copy up and running, follow these simple steps.
 
 # Installation
 
-1. Clone the repo
+1. Open your terminal of choice and clone the repository:
 ```
-https://github.com/Kuzma02/Secured-File-Share
+git clone https://github.com/Kuzma02/Secured-File-Share
 ```
 
 2. Enter your environment variables in .env on the server
